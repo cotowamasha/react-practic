@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 
 import './index.css'
 
+// lesson 1
 class Messages extends Component {
     constructor(props) {
         super(props)

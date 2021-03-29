@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import './index.css'
+import '@app/index.css'
 
 // lesson 1
 class Messages extends Component {
@@ -19,9 +19,8 @@ class Messages extends Component {
         this.setState({value: event.target.value})
     }
     handleSubmit(event) {
-        this.state.messages.push(this.state.value)
-        this.setState({messages: this.state.messages})
-        this.setState({value: ''})
+        this.state.messages = [...this.state.messages, this.state.value]
+        this.setState({messages: this.state.messages, value: ''})
         event.preventDefault()
     }
     render () {

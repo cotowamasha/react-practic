@@ -14,7 +14,7 @@ module.exports = {
     mode: process.env.NODE_ENV || 'development',
     context: path.resolve(__dirname, 'src'), 
     entry: {
-         main: path.resolve(__dirname, 'src/lesson2/index.js')
+         main: path.resolve(__dirname, 'src/lesson2/lesson2.js')
     },
     output: {
         filename: getFileNameByEnv('js'),

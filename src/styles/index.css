@@ -3,8 +3,17 @@
     padding: 0;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: Roboto, 'san-serif';
+    height: 100%;
+}
+
+#root {
+    height: 100%;
 }
 
 button, input, textarea {
@@ -17,9 +26,9 @@ button, input, textarea:focus {
 }
 
 .field {
-    max-width: 500px;
+    /* max-width: 500px; */
     width: 100%;
-    border: 1px solid;
+    /* border: 1px solid; */
     padding: 50px 20px;
     margin: 0 auto;
     height: 80vh;
@@ -35,6 +44,8 @@ button, input, textarea:focus {
 .field__box {
     width: 100%;
     height: 100%;
+    overflow: auto;
+    border-bottom: 1px solid #9a9fa1;
 }
 
 .field__btn {
@@ -63,4 +74,9 @@ button, input, textarea:focus {
 }
 .message--left h6 {
     color: teal;
+}
+
+.send {
+    color: #2b5278;
+    cursor: pointer;
 }

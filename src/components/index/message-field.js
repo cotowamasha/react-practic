@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 
 // components
 import { Message } from './message'
@@ -17,24 +17,60 @@ const StyledInput = withStyles(() => {
         },
       },
     }
-  })(Input)
+})(Input)
 
 export class MessageField extends Component {
     state = {
         messages: [
             {
                 from: 'YOU',
-                value: 'Привет'
-            }
+                value: 'Hello',
+                to: 213
+            },
+            {
+                from: 213,
+                value: 'What\'s up?',
+                to: 'YOU'
+            },
+            {
+                from: 'YOU',
+                value: 'Fine',
+                to: 213
+            },
+
+            {
+                from: 'YOU',
+                value: 'Where my keys?',
+                to: 117
+            },
+            {
+                from: 117,
+                value: 'I took them.',
+                to: 'YOU'
+            },
+
+            
+            {
+                from: 48,
+                value: 'Will you come in my party tonight?',
+                to: 'YOU'
+            },
+            {
+                from: 'YOU',
+                value: 'Yes, of course. But I\'ll be later.',
+                to: 48
+            },
         ],
         value: ""
     }
 
-    sendMessage = ({ from, value }) => {
+    ref = createRef()
+
+    sendMessage = ({ from, value, to }) => {
         const { messages } = this.state
 
         this.setState({
-            messages: [...messages, { from, value }],
+            messages: [...messages, { from, value, to }],
             value: "",
         })
     }
@@ -47,7 +83,7 @@ export class MessageField extends Component {
 
     handlePressInput = ({ code }) => {
         if (code === "Enter") {
-            this.sendMessage({ from: "YOU", value: this.state.value })
+            this.sendMessage({ from: "YOU", value: this.state.value , to: this.props.uid})
         }
     }
 
@@ -58,19 +94,32 @@ export class MessageField extends Component {
     
         if (lastMessage.from === "YOU" && state.messages !== messages) {
           setTimeout(() => {
-            this.sendMessage({ from: "ROBOT", value: "Ответ робота" })
+            this.sendMessage({ from: this.props.uid, value: "Ответ робота", to: 'YOU'})
           }, 500)
         }
-      }
+        this.handleScrollBottom()
+    }
+
+    handleScrollBottom = () => {
+        if (this.ref.current) {
+            this.ref.current.scrollTo(0, this.ref.current.scrollHeight)
+        }
+    }
 
     render () {
         const { messages, value } = this.state
+        const uid = this.props.uid
 
         return (
             <>
                 <div className="field field--column">
-                    <div className="field__box">
-                        {messages.map((message, index) => <Message key={index} message={message} />)}
+                    <div
+                        ref={this.ref}
+                        className="field__box"
+                    >
+                        {messages.map((message, index) => {
+                            if (message.from == uid || message.to == uid) return <Message key={index} message={message} />
+                        } )}
                     </div>
                     <StyledInput
                         fullWidth={true}
@@ -84,7 +133,7 @@ export class MessageField extends Component {
                                 <Send
                                     className="send"
                                     onClick={() => {
-                                        this.sendMessage({ from: "YOU", value })
+                                        this.sendMessage({ from: "YOU", value, to: uid })
                                     }}
                                 />
                             )}

@@ -6,12 +6,10 @@ import { ChatLayout } from '@components/layout/chat'
 export class IndexPage extends Component {
     render () {
         return (
-            <ChatLayout />
-
-            // как сделать в реакт такую обертку???
-            // <ChatLayout >
-            //     <MessageField />
-            // <ChatLayout />
+            <ChatLayout component={this.props.component} />
         )
     }
 }
+
+
+ 

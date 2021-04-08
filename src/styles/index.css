@@ -25,6 +25,10 @@ button, input, textarea:focus {
     outline: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 .field {
     /* max-width: 500px; */
     width: 100%;

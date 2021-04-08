@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom';
+import { Router } from '@router'
 
 import '@app/styles/index.css'
 
@@ -7,6 +9,9 @@ import '@app/styles/index.css'
 import { IndexPage } from '@pages' 
 
 ReactDOM.render(
-    <IndexPage />,
+    <BrowserRouter>
+        <Router />
+    </BrowserRouter>
+    ,
     document.querySelector('#root')
 )

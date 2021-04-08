@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 
 export class Message extends Component {
     render () {
+        const message = this.props.message
+
         return (
             <>
-                <div className={this.props.message.from == 'YOU' ? 'message message--right' : 'message message--left'}>
+                <div className={message.from == 'YOU' ? 'message message--right' : 'message message--left'}>
                     <h6>
-                        {this.props.message.from}
+                        {message.from}
                     </h6>
                     <p>
-                        {this.props.message.value}
+                        {message.value}
                     </p>
                 </div>
             </>

@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 // material-ui
 import { AppBar, Toolbar, Typography, Button, Grid, Avatar } from '@material-ui/core'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-
-// components
-import { MessageField } from '@components/index/message-field'
 
 export class ChatLayout extends Component {
     state = {
@@ -27,30 +24,52 @@ export class ChatLayout extends Component {
                 height: '100%',
                 paddingRight: '20px'
               },
-              inline: {
+            inline: {
                 display: 'inline',
-              },
-              blue: {
-                  color: 'white',
-                  backgroundColor: '#00a'
-              },
-              orange: {
+            },
+            blue: {
+                color: 'white',
+                backgroundColor: '#00a'
+            },
+            orange: {
                 color: 'white',
                 backgroundColor: '#FF8C00'
-              },
-              green: {
+            },
+            green: {
                 color: 'white',
                 backgroundColor: '#7FFF00'
-              },
-              menu: {
+            },
+            menu: {
                 position: 'fixed',
                 zIndex: 100
-              }
-        }
+            },
+            title: {
+                color: 'white'
+            }
+        },
+        chats: [
+            {
+                uid: 213,
+                name: 'Ali Connors'
+            },
+            {
+                uid: 117,
+                name: 'Alex'
+            },
+            {
+                uid: 48,
+                name: 'Sandra Adams'
+            }
+        ],
+        colors: ['blue', 'orange', 'green']
+    }
+
+    getRandomColor = () => {
+        return Math.floor(Math.random() * this.state.colors.length);
     }
 
     render () {
-        const { classes } = this.state
+        const { classes, chats, colors } = this.state
         
         return (
             <>
@@ -62,11 +81,14 @@ export class ChatLayout extends Component {
                             justify="space-between"
                             alignItems="center"
                         >
-                            <Typography
-                                variant="h6"
-                            >
-                                Chat
-                            </Typography>
+                            <Link to="/">
+                                <Typography
+                                    variant="h6"
+                                    style={classes.title}
+                                >
+                                    Chat
+                                </Typography>
+                            </Link>
                             <Button
                                 color="inherit"
                             >
@@ -84,75 +106,38 @@ export class ChatLayout extends Component {
                     style={classes.root}
                 >
                     <List style={classes.sidebar}>
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <Avatar style={classes.blue}>N</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary="Brunch this weekend?"
-                                secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        style={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        Ali Connors
-                                    </Typography>
-                                    {" — I'll be in your neighborhood doing errands this…"}
-                                </React.Fragment>
-                            }
-                            />
-                        </ListItem>
-                        <Divider variant="inset" component="li" />
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <Avatar style={classes.orange}>N</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                            primary="Summer BBQ"
-                            secondary={
-                            <React.Fragment>
-                                <Typography
-                                    component="span"
-                                    variant="body2"
-                                    style={classes.inline}
-                                    color="textPrimary"
+                        {chats.map(chat => 
+                            <Link key={chat.uid} to={`/chat/${chat.uid}`}>
+                                <ListItem
+                                    alignItems="flex-start"
                                 >
-                                    to Scott, Alex, Jennifer
-                                </Typography>
-                                {" — Wish I could come, but I'm out of town this…"}
-                            </React.Fragment>
-                            }
-                            />
-                        </ListItem>
-                        <Divider variant="inset" component="li" />
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <Avatar style={classes.green}>N</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                            primary="Oui Oui"
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        style={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        Sandra Adams
-                                    </Typography>
-                                {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                            }
-                            />
-                        </ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar style={classes[colors[this.getRandomColor()]]}>
+                                            {chat.name[0]}
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={chat.name}
+                                        secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                style={classes.inline}
+                                                color="textPrimary"
+                                            >
+                                                {chat.name}
+                                            </Typography>
+                                            {" — I'll be in your neighborhood doing errands this…"}
+                                        </React.Fragment>
+                                    }
+                                    />
+                                </ListItem>
+                            </Link>
+                        )}
                     </List>
 
-                    {/* чтобы сюда можно было вставить любой компонент???? */}
-                    <MessageField />
+                    {this.props.component}
                     
                 </Grid>
             </>

@@ -14,7 +14,7 @@ module.exports = {
     mode: process.env.NODE_ENV || 'development',
     context: path.resolve(__dirname, 'src'), 
     entry: {
-         main: path.resolve(__dirname, 'src/lesson2/lesson2.js')
+         main: path.resolve(__dirname, 'src/app.js')
     },
     output: {
         filename: getFileNameByEnv('js'),
@@ -130,6 +130,8 @@ module.exports = {
             '@app': path.resolve(__dirname, 'src/'),
             '@components': path.resolve(__dirname, 'src/components'),
             '@assets': path.resolve(__dirname, 'src/assets'),
+            '@pages': path.resolve(__dirname, 'src/pages'),
+            '@router': path.resolve(__dirname, 'src/router'),
         }
     },
     devServer: {

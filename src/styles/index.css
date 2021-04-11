@@ -3,8 +3,17 @@
     padding: 0;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: Roboto, 'san-serif';
+    height: 100%;
+}
+
+#root {
+    height: 100%;
 }
 
 button, input, textarea {
@@ -16,10 +25,14 @@ button, input, textarea:focus {
     outline: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 .field {
-    max-width: 500px;
+    /* max-width: 500px; */
     width: 100%;
-    border: 1px solid;
+    /* border: 1px solid; */
     padding: 50px 20px;
     margin: 0 auto;
     height: 80vh;
@@ -35,6 +48,8 @@ button, input, textarea:focus {
 .field__box {
     width: 100%;
     height: 100%;
+    overflow: auto;
+    border-bottom: 1px solid #9a9fa1;
 }
 
 .field__btn {
@@ -63,4 +78,50 @@ button, input, textarea:focus {
 }
 .message--left h6 {
     color: teal;
+}
+
+.send {
+    color: #2b5278;
+    cursor: pointer;
+}
+
+.root {
+    background-color: white;
+    height: 100%;
+    padding-top: 64px;
+    flex-wrap: nowrap !important
+}
+
+.title {
+    color: white
+}
+
+.sidebar {
+    width: 100%;
+    max-width: 36ch;
+    background-color: #FAFAFA;
+    height: 100%;
+    padding-right: 20px
+}
+
+.blue {
+    color: white !important;
+    background-color: #00a !important
+}
+.orange {
+    color: white !important;
+    background-color: #FF8C00 !important
+}
+.green {
+    color: white !important;
+    background-color: #7FFF00 !important
+}
+
+.inline {
+    display: inline;
+}
+
+.menu {
+    position: fixed;
+    z-index: 100
 }

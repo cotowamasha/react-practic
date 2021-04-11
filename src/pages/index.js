@@ -1,12 +1,28 @@
 import React, { Component } from 'react'
 import { ChatLayout } from '@components/layout/chat'
 
-// import { MessageField } from '@components/index/message-field'
+const chats = [
+    {
+        uid: 213,
+        name: 'Ali Connors'
+    },
+    {
+        uid: 117,
+        name: 'Alex'
+    },
+    {
+        uid: 48,
+        name: 'Sandra Adams'
+    }
+]
 
 export class IndexPage extends Component {
     render () {
         return (
-            <ChatLayout component={this.props.component} />
+            <ChatLayout
+                chats={chats}
+                component={this.props.component}
+            />
         )
     }
 }

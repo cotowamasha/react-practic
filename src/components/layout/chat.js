@@ -2,65 +2,21 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
 // material-ui
-import { AppBar, Toolbar, Typography, Button, Grid, Avatar } from '@material-ui/core'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    Grid,
+    Avatar,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar
+} from '@material-ui/core'
 
 export class ChatLayout extends Component {
     state = {
-        classes: {
-            root: {
-                backgroundColor: 'white',
-                height: '100%',
-                paddingTop: '64px',
-                flexWrap: 'nowrap'
-            },
-            sidebar: {
-                width: '100%',
-                maxWidth: '36ch',
-                backgroundColor: '#FAFAFA',
-                height: '100%',
-                paddingRight: '20px'
-              },
-            inline: {
-                display: 'inline',
-            },
-            blue: {
-                color: 'white',
-                backgroundColor: '#00a'
-            },
-            orange: {
-                color: 'white',
-                backgroundColor: '#FF8C00'
-            },
-            green: {
-                color: 'white',
-                backgroundColor: '#7FFF00'
-            },
-            menu: {
-                position: 'fixed',
-                zIndex: 100
-            },
-            title: {
-                color: 'white'
-            }
-        },
-        chats: [
-            {
-                uid: 213,
-                name: 'Ali Connors'
-            },
-            {
-                uid: 117,
-                name: 'Alex'
-            },
-            {
-                uid: 48,
-                name: 'Sandra Adams'
-            }
-        ],
         colors: ['blue', 'orange', 'green']
     }
 
@@ -69,11 +25,13 @@ export class ChatLayout extends Component {
     }
 
     render () {
-        const { classes, chats, colors } = this.state
+        const { colors } = this.state
+        const Component = this.props.component
+        const { chats } = this.props
         
         return (
             <>
-                <AppBar style={classes.menu}>
+                <AppBar className="menu">
                     <Toolbar>
                         <Grid
                             container
@@ -84,16 +42,16 @@ export class ChatLayout extends Component {
                             <Link to="/">
                                 <Typography
                                     variant="h6"
-                                    style={classes.title}
+                                    className="title"
                                 >
                                     Chat
                                 </Typography>
                             </Link>
-                            <Button
-                                color="inherit"
+                            <Link to="/login"
+                                className="title"
                             >
                                 Login
-                            </Button>
+                            </Link>
                         </Grid>
                     </Toolbar>
                 </AppBar>
@@ -103,16 +61,16 @@ export class ChatLayout extends Component {
                     direction="row"
                     justify="flex-start"
                     alignItems="flex-start"
-                    style={classes.root}
+                    className="root"
                 >
-                    <List style={classes.sidebar}>
+                    <List className="sidebar">
                         {chats.map(chat => 
                             <Link key={chat.uid} to={`/chat/${chat.uid}`}>
                                 <ListItem
                                     alignItems="flex-start"
                                 >
                                     <ListItemAvatar>
-                                        <Avatar style={classes[colors[this.getRandomColor()]]}>
+                                        <Avatar className={colors[this.getRandomColor()]}>
                                             {chat.name[0]}
                                         </Avatar>
                                     </ListItemAvatar>
@@ -123,12 +81,12 @@ export class ChatLayout extends Component {
                                             <Typography
                                                 component="span"
                                                 variant="body2"
-                                                style={classes.inline}
+                                                className="inline"
                                                 color="textPrimary"
                                             >
                                                 {chat.name}
                                             </Typography>
-                                            {" — I'll be in your neighborhood doing errands this…"}
+                                            — I'll be in your neighborhood doing errands this…
                                         </React.Fragment>
                                     }
                                     />
@@ -137,7 +95,7 @@ export class ChatLayout extends Component {
                         )}
                     </List>
 
-                    {this.props.component}
+                    { Component }
                     
                 </Grid>
             </>

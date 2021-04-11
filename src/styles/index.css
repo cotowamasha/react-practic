@@ -84,3 +84,44 @@ a {
     color: #2b5278;
     cursor: pointer;
 }
+
+.root {
+    background-color: white;
+    height: 100%;
+    padding-top: 64px;
+    flex-wrap: nowrap !important
+}
+
+.title {
+    color: white
+}
+
+.sidebar {
+    width: 100%;
+    max-width: 36ch;
+    background-color: #FAFAFA;
+    height: 100%;
+    padding-right: 20px
+}
+
+.blue {
+    color: white !important;
+    background-color: #00a !important
+}
+.orange {
+    color: white !important;
+    background-color: #FF8C00 !important
+}
+.green {
+    color: white !important;
+    background-color: #7FFF00 !important
+}
+
+.inline {
+    display: inline;
+}
+
+.menu {
+    position: fixed;
+    z-index: 100
+}

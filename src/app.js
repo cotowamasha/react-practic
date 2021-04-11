@@ -5,9 +5,6 @@ import { Router } from '@router'
 
 import '@app/styles/index.css'
 
-//pages
-import { IndexPage } from '@pages' 
-
 ReactDOM.render(
     <BrowserRouter>
         <Router />

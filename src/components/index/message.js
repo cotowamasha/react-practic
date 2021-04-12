@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-export class Message extends Component {
+export class MessageView extends Component {
+    getNameById = (uid) => {
+        return this.props.chats.find(el => el.uid == uid).name
+    }
+
     render () {
-        const message = this.props.message
+        const { message, chats } = this.props
 
         return (
             <>
                 <div className={message.from == 'YOU' ? 'message message--right' : 'message message--left'}>
                     <h6>
-                        {message.from}
+                        {message.from == 'YOU' ? 'YOU' : this.getNameById(message.from)}
                     </h6>
                     <p>
                         {message.value}
@@ -18,3 +23,11 @@ export class Message extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        chats: state.chatsReducer.chats
+    }
+}
+
+export const Message = connect(mapStateToProps, null)(MessageView)

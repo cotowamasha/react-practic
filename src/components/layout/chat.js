@@ -38,7 +38,6 @@ export class ChatLayoutView extends Component {
         const { colors, isOpen } = this.state
         const Component = this.props.component
         const { chats } = this.props
-        console.log(this.props)
         
         return (
             <>

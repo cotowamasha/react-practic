@@ -149,3 +149,11 @@ a {
     background: #ececec;
     cursor: pointer;
 }
+
+.start-conversation {
+    padding: 10px 20px;
+    margin: auto;
+    background: #ececec;
+    border-radius: 5px;
+    width: fit-content;
+}

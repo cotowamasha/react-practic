@@ -1,4 +1,4 @@
-import {  } from './types'
+import { ADD_MESSAGE } from './types'
 
 const initialState = {
     messages: [
@@ -36,12 +36,24 @@ const initialState = {
             from: 'YOU',
             value: 'Yes, of course. But I\'ll be later.',
             to: 3
-        },
+        }
     ]
 }
 
 export const messagesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case ADD_MESSAGE:
+            return {
+                ...state,
+                messages: [
+                    ...state.messages,
+                    {
+                        from: action.payload.from,
+                        value: action.payload.value,
+                        to: action.payload.to
+                    }
+                ]
+            }
         default:
             return state
     }

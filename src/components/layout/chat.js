@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { increment, decrement } from '../../store/counter'
+import { AddChatModal } from '@components/modals/add-chat'
 
 // material-ui
 import {
@@ -15,19 +18,27 @@ import {
     ListItemAvatar
 } from '@material-ui/core'
 
-export class ChatLayout extends Component {
+export class ChatLayoutView extends Component {
     state = {
-        colors: ['blue', 'orange', 'green']
+        colors: ['blue', 'orange', 'green'],
+        isOpen: false
     }
+
+    toggleModal = () => [
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    ]
 
     getRandomColor = () => {
         return Math.floor(Math.random() * this.state.colors.length);
     }
 
     render () {
-        const { colors } = this.state
+        const { colors, isOpen } = this.state
         const Component = this.props.component
         const { chats } = this.props
+        console.log(this.props)
         
         return (
             <>
@@ -93,12 +104,35 @@ export class ChatLayout extends Component {
                                 </ListItem>
                             </Link>
                         )}
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            onClick={this.toggleModal}
+                        >
+                            + Add chat
+                        </Button>
                     </List>
 
                     { Component }
                     
                 </Grid>
+                <AddChatModal isOpen={isOpen} onClose={this.toggleModal} />
             </>
         )
     }
 }
+
+const mapStateToProps = (state, props) => {
+    return {
+        count: state.counterReducer.count,
+        chats: state.chatsReducer.chats,
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        increment: () => dispatch(increment()),
+        decrement: () => dispatch(decrement())
+    }
+}
+
+export const ChatLayout = connect(mapStateToProps, mapDispatchToProps)(ChatLayoutView)

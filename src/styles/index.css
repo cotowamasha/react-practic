@@ -125,3 +125,27 @@ a {
     position: fixed;
     z-index: 100
 }
+
+.modal {
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.modal__box:focus {
+    outline: none;
+}
+
+.modal__box {
+    padding: 50px 30px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 4px 4px 12px 0px rgba(50, 50, 50, 0.34);
+}
+
+.contact:hover {
+    background: #ececec;
+    cursor: pointer;
+}

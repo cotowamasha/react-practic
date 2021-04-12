@@ -5,44 +5,6 @@ import { Typography} from '@material-ui/core'
 import { MessageField } from '@components/index/message-field'
 import { LoginPage } from '@pages/login'
 
-const messages = [
-    {
-        from: 'YOU',
-        value: 'Hello',
-        to: 213
-    },
-    {
-        from: 213,
-        value: 'What\'s up?',
-        to: 'YOU'
-    },
-    {
-        from: 'YOU',
-        value: 'Fine',
-        to: 213
-    },
-    {
-        from: 'YOU',
-        value: 'Where my keys?',
-        to: 117
-    },
-    {
-        from: 117,
-        value: 'I took them.',
-        to: 'YOU'
-    },
-    {
-        from: 48,
-        value: 'Will you come in my party tonight?',
-        to: 'YOU'
-    },
-    {
-        from: 'YOU',
-        value: 'Yes, of course. But I\'ll be later.',
-        to: 48
-    },
-]
-
 export class Router extends Component {
     render() {
         return (

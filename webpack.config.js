@@ -132,6 +132,7 @@ module.exports = {
             '@assets': path.resolve(__dirname, 'src/assets'),
             '@pages': path.resolve(__dirname, 'src/pages'),
             '@router': path.resolve(__dirname, 'src/router'),
+            '@store': path.resolve(__dirname, 'src/store'),
         }
     },
     devServer: {

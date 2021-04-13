@@ -21,13 +21,16 @@ const initialState = {
 export const chatsReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_CHAT:
-            return [
-                ...state, 
-                {
-                    name: action.payload,
-                    uid: state.chats[state.chats.length - 1]['uid'] + 1
-                }
-            ]
+            return {
+                ...state,
+                chats: [
+                    ...state.chats,
+                    {
+                        name: action.payload,
+                        uid: state.chats[state.chats.length - 1]['uid'] + 1
+                    }
+                ]
+            }
         default:
             return state
     }

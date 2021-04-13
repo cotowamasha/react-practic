@@ -1,4 +1,6 @@
 import React, { Component, createRef } from 'react'
+import { connect } from 'react-redux'
+import { addMessage } from '@store/messages'
 
 // components
 import { Message } from './message'
@@ -19,19 +21,19 @@ const StyledInput = withStyles(() => {
     }
 })(Input)
 
-export class MessageField extends Component {
+export class MessageFieldView extends Component {
     state = {
-        messages: this.props.messages,
         value: ""
     }
 
     ref = createRef()
 
     sendMessage = ({ from, value, to }) => {
-        const { messages } = this.state
+        const { addMessage } = this.props
+
+        addMessage({ from, value, to })
 
         this.setState({
-            messages: [...messages, { from, value, to }],
             value: "",
         })
     }
@@ -48,14 +50,14 @@ export class MessageField extends Component {
         }
     }
 
-    componentDidUpdate(_, state) {
-        const { messages } = this.state
+    componentDidUpdate(props) {
+        const { messages, uid } = this.props
     
         const lastMessage = messages[messages.length - 1]
     
-        if (lastMessage.from === "YOU" && state.messages !== messages) {
+        if (lastMessage.from === "YOU" && props.messages != messages) {
           setTimeout(() => {
-            this.sendMessage({ from: this.props.uid, value: "Ответ робота", to: 'YOU'})
+            this.sendMessage({ from: uid, value: "Ответ робота", to: 'YOU'})
           }, 500)
         }
         this.handleScrollBottom()
@@ -67,8 +69,13 @@ export class MessageField extends Component {
         }
     }
 
+    getActualMessage = () => {
+        const { uid, messages } = this.props
+        return messages.filter(message => message.to == uid || message.from == uid)
+    }
+
     render () {
-        const { value, messages } = this.state
+        const { value } = this.state
         const { uid } = this.props
 
         return (
@@ -78,9 +85,13 @@ export class MessageField extends Component {
                         ref={this.ref}
                         className="field__box"
                     >
-                        {messages.map((message, index) => {
-                            if (message.from == uid || message.to == uid) return <Message key={index} message={message} />
-                        } )}
+                        { this.getActualMessage().length 
+                          ? this.getActualMessage().map((message, index) => {
+                            return <Message key={index} message={message} />
+                        }) 
+                        : <p className="start-conversation">
+                                Начните переписку
+                            </p> }
                     </div>
                     <StyledInput
                         fullWidth={true}
@@ -106,3 +117,16 @@ export class MessageField extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        messages: state.messagesReducer.messages,
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addMessage: (message) => dispatch(addMessage(message))
+    }
+}
+
+export const MessageField = connect(mapStateToProps, mapDispatchToProps)(MessageFieldView)

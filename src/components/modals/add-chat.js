@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { Modal as ModalBase, Typography, List, ListItem } from '@material-ui/core'
 import { connect } from 'react-redux'
+import { addChat } from '@store/chats'
 
 export class AddChatModalView extends Component {
     render () {
@@ -30,7 +31,7 @@ export class AddChatModalView extends Component {
                             <ListItem
                                 key={contact}
                                 className="contact"
-                                // onClick={addChat(contact)}
+                                onClick={() => addChat(contact)}
                             >
                                 {contact}
                             </ListItem>
@@ -48,9 +49,9 @@ const mapStateToProps = (state) => {
         chats: state.chatsReducer.chats,
     }
 }
-const mapDispatchToProps = (dispatch, contact) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        addChat: () => dispatch(addChat(contact))
+        addChat: (contact) => dispatch(addChat(contact))
     }
 }
 

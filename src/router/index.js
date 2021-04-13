@@ -21,7 +21,7 @@ export class Router extends Component {
                     </Typography>
                     } />
                 } />
-                <Route path='/chat/:uid' render={ (obj) => <IndexPage component={<MessageField messages={messages} uid={ Number(obj.match.params.uid) } />} /> } />
+                <Route path='/chat/:uid' render={ (obj) => <IndexPage component={<MessageField uid={ Number(obj.match.params.uid) } />} /> } />
                 <Route path='/login' component={ LoginPage } />
             </Switch>
         )

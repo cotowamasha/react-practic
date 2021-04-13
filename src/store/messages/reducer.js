@@ -47,11 +47,7 @@ export const messagesReducer = (state = initialState, action) => {
                 ...state,
                 messages: [
                     ...state.messages,
-                    {
-                        from: action.payload.from,
-                        value: action.payload.value,
-                        to: action.payload.to
-                    }
+                    action.payload
                 ]
             }
         default:

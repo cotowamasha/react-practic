@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { increment, decrement } from '../../store/counter'
 import { AddChatModal } from '@components/modals/add-chat'
 
 // material-ui
@@ -32,6 +31,11 @@ export class ChatLayoutView extends Component {
 
     getRandomColor = () => {
         return Math.floor(Math.random() * this.state.colors.length);
+    }
+
+    lastMessage = (uid) => {
+        let filter = this.props.messages.filter(el => el.from == uid || el.to == uid)
+        return filter[filter.length - 1]?.value || 'Нет сообщений'
     }
 
     render () {
@@ -96,7 +100,7 @@ export class ChatLayoutView extends Component {
                                             >
                                                 {chat.name}
                                             </Typography>
-                                            — I'll be in your neighborhood doing errands this…
+                                            {' ' + this.lastMessage(chat.uid) + ' ' }
                                         </React.Fragment>
                                     }
                                     />
@@ -121,17 +125,11 @@ export class ChatLayoutView extends Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
     return {
-        count: state.counterReducer.count,
         chats: state.chatsReducer.chats,
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        increment: () => dispatch(increment()),
-        decrement: () => dispatch(decrement())
+        messages: state.messagesReducer.messages,
     }
 }
 
-export const ChatLayout = connect(mapStateToProps, mapDispatchToProps)(ChatLayoutView)
+export const ChatLayout = connect(mapStateToProps, null)(ChatLayoutView)

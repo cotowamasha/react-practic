@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { AddChatModal } from '@components/modals/add-chat'
+import { push } from 'connected-react-router'
+import { removeChat } from '@store/chats'
+import { removeMessages } from '@store/messages'
 
 // material-ui
 import {
@@ -38,6 +40,16 @@ export class ChatLayoutView extends Component {
         return filter[filter.length - 1]?.value || 'Нет сообщений'
     }
 
+    handleNavigate = (link) => {
+        this.props.push(link)
+    }
+
+    removeChat = (uid) => {
+        this.props.removeChat(uid)
+        this.props.removeMessages(uid)
+        console.log('messages', this.props.messages)
+    }
+
     render () {
         const { colors, isOpen } = this.state
         const Component = this.props.component
@@ -53,19 +65,19 @@ export class ChatLayoutView extends Component {
                             justify="space-between"
                             alignItems="center"
                         >
-                            <Link to="/">
-                                <Typography
-                                    variant="h6"
-                                    className="title"
-                                >
-                                    Chat
-                                </Typography>
-                            </Link>
-                            <Link to="/login"
-                                className="title"
+                            <Typography
+                                variant="h6"
+                                className="title cursor-pointer"
+                                onClick={() => this.handleNavigate('/')}
+                            >
+                                Chat
+                            </Typography>
+                            <Typography
+                                onClick={() => this.handleNavigate('/login')}
+                                className="title cursor-pointer"
                             >
                                 Login
-                            </Link>
+                            </Typography>
                         </Grid>
                     </Toolbar>
                 </AppBar>
@@ -79,33 +91,40 @@ export class ChatLayoutView extends Component {
                 >
                     <List className="sidebar">
                         {chats.map(chat => 
-                            <Link key={chat.uid} to={`/chat/${chat.uid}`}>
-                                <ListItem
-                                    alignItems="flex-start"
+                            <ListItem
+                                key={chat.uid}
+                                alignItems="flex-start"
+                                className="cursor-pointer"
+                            >
+                                <ListItemAvatar onClick={() => this.handleNavigate(`/chat/${chat.uid}`)}>
+                                    <Avatar className={colors[this.getRandomColor()]}>
+                                        {chat.name[0]}
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={chat.name}
+                                    onClick={() => this.handleNavigate(`/chat/${chat.uid}`)}
+                                    secondary={
+                                    <React.Fragment>
+                                        <Typography
+                                            component="span"
+                                            variant="body2"
+                                            className="inline"
+                                            color="textPrimary"
+                                        >
+                                            {chat.name}
+                                        </Typography>
+                                        {' ' + this.lastMessage(chat.uid) + ' ' }
+                                    </React.Fragment>
+                                }
+                                />
+                                <button
+                                    onClick={() => this.removeChat(chat.uid)}
+                                    className="delete-chat"
                                 >
-                                    <ListItemAvatar>
-                                        <Avatar className={colors[this.getRandomColor()]}>
-                                            {chat.name[0]}
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={chat.name}
-                                        secondary={
-                                        <React.Fragment>
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                className="inline"
-                                                color="textPrimary"
-                                            >
-                                                {chat.name}
-                                            </Typography>
-                                            {' ' + this.lastMessage(chat.uid) + ' ' }
-                                        </React.Fragment>
-                                    }
-                                    />
-                                </ListItem>
-                            </Link>
+                                    <i className="fas fa-times"></i>
+                                </button>
+                            </ListItem>
                         )}
                         <Button
                             fullWidth
@@ -132,4 +151,12 @@ const mapStateToProps = (state) => {
     }
 }
 
-export const ChatLayout = connect(mapStateToProps, null)(ChatLayoutView)
+const mapDispatchToProps = dispatch => {
+    return {
+        push: (link) => dispatch(push(link)),
+        removeChat: (uid) => dispatch(removeChat(uid)),
+        removeMessages: (uid) => dispatch(removeMessages(uid)),
+    }
+}
+
+export const ChatLayout = connect(mapStateToProps, mapDispatchToProps)(ChatLayoutView)

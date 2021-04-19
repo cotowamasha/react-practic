@@ -4,7 +4,7 @@ import { messagesReducer } from './messages'
 import { chatsReducer } from './chats'
 import { botSendMessge } from './middlewares'
 import { persistReducer, persistStore  } from 'redux-persist'
-import { connectRouter } from 'connected-react-router'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
 import storage from 'redux-persist/lib/storage'
 
@@ -27,6 +27,7 @@ export const store = createStore(
     persistReducer(config, reducers),
     compose(
         applyMiddleware(botSendMessge),
+        // routerMiddleware(history),
         window.__REDUX_DEVTOOLS_EXTENSION__
         ? window.__REDUX_DEVTOOLS_EXTENSION__()
         : () => {}

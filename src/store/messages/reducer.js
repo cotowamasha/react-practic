@@ -1,4 +1,4 @@
-import { ADD_MESSAGE } from './types'
+import { ADD_MESSAGE, REMOVE_MESSAGES, REMOVE_MESSAGE } from './types'
 
 const initialState = {
     messages: [
@@ -47,12 +47,23 @@ export const messagesReducer = (state = initialState, action) => {
                 ...state,
                 messages: [
                     ...state.messages,
-                    {
-                        from: action.payload.from,
-                        value: action.payload.value,
-                        to: action.payload.to
-                    }
+                    action.payload
                 ]
+            }
+        case REMOVE_MESSAGES:
+            return {
+                ...state,
+                messages: state.messages.filter(el => {
+                    if (el.from == action.payload || el.to == action.payload) {
+                        return false
+                    }
+                    return true
+                })
+            }
+        case REMOVE_MESSAGE:
+            return {
+                ...state,
+                messages: state.messages.filter(el => el != action.payload)
             }
         default:
             return state

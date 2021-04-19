@@ -68,9 +68,31 @@ a {
     font-weight: 300;
 }
 
+.message--left {
+    background: rgb(234, 255, 255);
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: relative;
+}
+
+
 .message--right {
     text-align: right;
     margin-left: auto;
+    background: #ececec;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: relative;
+}
+.message--right .delete-chat {
+    position: absolute;
+    left: 5px;
+    top: 3px;
+}
+.message--left .delete-chat {
+    position: absolute;
+    right: 5px;
+    top: 3px;
 }
 
 .message--left p {
@@ -92,8 +114,12 @@ a {
     flex-wrap: nowrap !important
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .title {
-    color: white
+    color: white;
 }
 
 .sidebar {
@@ -156,4 +182,12 @@ a {
     background: #ececec;
     border-radius: 5px;
     width: fit-content;
+}
+
+.delete-chat {
+    background: none;
+}
+
+.delete-chat .fas {
+    color: #bebebe;
 }

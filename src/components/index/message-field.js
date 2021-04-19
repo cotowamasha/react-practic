@@ -50,18 +50,18 @@ export class MessageFieldView extends Component {
         }
     }
 
-    componentDidUpdate(props) {
-        const { messages, uid } = this.props
+    // componentDidUpdate(props) {
+    //     const { messages, uid } = this.props
     
-        const lastMessage = messages[messages.length - 1]
+    //     const lastMessage = messages[messages.length - 1]
     
-        if (lastMessage.from === "YOU" && props.messages != messages) {
-          setTimeout(() => {
-            this.sendMessage({ from: uid, value: "Ответ робота", to: 'YOU'})
-          }, 500)
-        }
-        this.handleScrollBottom()
-    }
+    //     if (lastMessage.from === "YOU" && props.messages != messages) {
+    //       setTimeout(() => {
+    //         this.sendMessage({ from: uid, value: "Ответ робота", to: 'YOU'})
+    //       }, 500)
+    //     }
+    //     this.handleScrollBottom()
+    // }
 
     handleScrollBottom = () => {
         if (this.ref.current) {

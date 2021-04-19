@@ -18,7 +18,8 @@ module.exports = {
     },
     output: {
         filename: getFileNameByEnv('js'),
-        path: path.resolve(__dirname, 'build')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     optimization: isDevelopment ? {} : {
         minimize: true,
@@ -136,6 +137,8 @@ module.exports = {
         }
     },
     devServer: {
+        historyApiFallback: true,
+        contentBase: path.resolve(__dirname, 'dist'),
         open: true,
         hot: true,
         port: 3000,

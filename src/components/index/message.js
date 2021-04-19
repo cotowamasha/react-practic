@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { removeMessage } from '@store/messages'
 
 export class MessageView extends Component {
     getNameById = (uid) => {
@@ -7,7 +8,7 @@ export class MessageView extends Component {
     }
 
     render () {
-        const { message, chats } = this.props
+        const { message , removeMessage} = this.props
 
         return (
             <>
@@ -18,6 +19,12 @@ export class MessageView extends Component {
                     <p>
                         {message.value}
                     </p>
+                    <button
+                        onClick={() => removeMessage(message)}
+                        className="delete-chat"
+                    >
+                        <i className="fas fa-times"></i>
+                    </button>
                 </div>
             </>
         )
@@ -30,4 +37,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export const Message = connect(mapStateToProps, null)(MessageView)
+const mapDispatchToProps = dispatch => {
+    return {
+        removeMessage: (message) => dispatch(removeMessage(message)),
+    }
+}
+
+export const Message = connect(mapStateToProps, mapDispatchToProps)(MessageView)

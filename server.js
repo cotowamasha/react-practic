@@ -68,9 +68,14 @@ const getMessageById = (request, response) => {
     response.status(200).send(messagesById || [])
 }
 
+//как здесь получить????
 const sendMessage = (request, response) => {
-    const obj = request.params
-    console.log(obj)
+    // ????
+    console.log(request)
+    // messages = [...messages, request.data.message]
+    // let messagesById = messages.filter(el => el.from == id || el.to == id)
+    // response.status(200).send(messagesById || [])
+    response.status(200).send({success: 'success'})
 }
 
 server.get('/', getChats)

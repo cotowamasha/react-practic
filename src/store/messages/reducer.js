@@ -31,20 +31,17 @@ export const messagesReducer = (state = initialState, action) => {
                 messages: state.messages.filter(el => el != action.payload)
             }
         case GET_MESSAGES_ERROR:
-            console.log(1, action.payload)
             return {
                 ...state,
                 messagesPending: false
             }
         case GET_MESSAGES_SUCCESS:
-            console.log(2, action.payload)
             return {
                 ...state,
                 messages: action.payload,
                 messagesPending: false
             }
         case GET_MESSAGES_PENDING:
-            console.log(3, action.payload)
             return {
                 ...state,
                 messagesPending: true

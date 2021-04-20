@@ -24,7 +24,7 @@ class Requst {
     }
 
     post = (url, params) => {
-        return this.request.post(url, params, {})
+        return this.request.post(url, params)
     }
     delete = (url, params) => {
         return this.request.delete(url, params, {})

@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react'
 import { connect } from 'react-redux'
-import { addMessage, getMessagesById} from '@store/messages'
+import { addMessage, getMessagesById, sendMessage } from '@store/messages'
 
 // components
 import { Message } from './message'
@@ -28,10 +28,11 @@ export class MessageFieldView extends Component {
 
     ref = createRef()
 
-    sendMessage = ({ from, value, to }) => {
-        const { addMessage } = this.props
+    sendMessage = (message) => {
+        const { addMessage, sendMessage, uid } = this.props
 
-        addMessage({ from, value, to })
+        // addMessage({ from, value, to })
+        sendMessage(uid, message)
 
         this.setState({
             value: "",
@@ -132,7 +133,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addMessage: (message) => dispatch(addMessage(message)),
-        getMessagesById: (uid) => dispatch(getMessagesById(uid))
+        getMessagesById: (uid) => dispatch(getMessagesById(uid)),
+        sendMessage: (uid, message) => dispatch(sendMessage(uid, message))
     }
 }
 

@@ -1,43 +1,8 @@
-import { ADD_MESSAGE, REMOVE_MESSAGES, REMOVE_MESSAGE } from './types'
+import { ADD_MESSAGE, REMOVE_MESSAGES, REMOVE_MESSAGE, GET_MESSAGES_ERROR, GET_MESSAGES_PENDING, GET_MESSAGES_SUCCESS } from './types'
 
 const initialState = {
-    messages: [
-        {
-            from: 'YOU',
-            value: 'Hello',
-            to: 1
-        },
-        {
-            from: 1,
-            value: 'What\'s up?',
-            to: 'YOU'
-        },
-        {
-            from: 'YOU',
-            value: 'Fine',
-            to: 1
-        },
-        {
-            from: 'YOU',
-            value: 'Where my keys?',
-            to: 2
-        },
-        {
-            from: 2,
-            value: 'I took them.',
-            to: 'YOU'
-        },
-        {
-            from: 3,
-            value: 'Will you come in my party tonight?',
-            to: 'YOU'
-        },
-        {
-            from: 'YOU',
-            value: 'Yes, of course. But I\'ll be later.',
-            to: 3
-        }
-    ]
+    messages: [],
+    messagesPending: false
 }
 
 export const messagesReducer = (state = initialState, action) => {
@@ -64,6 +29,25 @@ export const messagesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 messages: state.messages.filter(el => el != action.payload)
+            }
+        case GET_MESSAGES_ERROR:
+            console.log(1, action.payload)
+            return {
+                ...state,
+                messagesPending: false
+            }
+        case GET_MESSAGES_SUCCESS:
+            console.log(2, action.payload)
+            return {
+                ...state,
+                messages: action.payload,
+                messagesPending: false
+            }
+        case GET_MESSAGES_PENDING:
+            console.log(3, action.payload)
+            return {
+                ...state,
+                messagesPending: true
             }
         default:
             return state

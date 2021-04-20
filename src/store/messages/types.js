@@ -1,3 +1,6 @@
 export const ADD_MESSAGE = "@messages/add"
 export const REMOVE_MESSAGES = "@messages/remove"
 export const REMOVE_MESSAGE = "@messages/remove-one"
+export const GET_MESSAGES_PENDING = "@chats/get messages pending"
+export const GET_MESSAGES_SUCCESS = "@chats/get messages success"
+export const GET_MESSAGES_ERROR = "@chats/get messages error"

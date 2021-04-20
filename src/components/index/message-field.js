@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react'
 import { connect } from 'react-redux'
-import { addMessage } from '@store/messages'
+import { addMessage, getMessagesById} from '@store/messages'
 
 // components
 import { Message } from './message'
@@ -50,43 +50,48 @@ export class MessageFieldView extends Component {
         }
     }
 
-    // componentDidUpdate(props) {
-    //     const { messages, uid } = this.props
-    
-    //     const lastMessage = messages[messages.length - 1]
-    
-    //     if (lastMessage.from === "YOU" && props.messages != messages) {
-    //       setTimeout(() => {
-    //         this.sendMessage({ from: uid, value: "Ответ робота", to: 'YOU'})
-    //       }, 500)
-    //     }
-    //     this.handleScrollBottom()
-    // }
-
     handleScrollBottom = () => {
         if (this.ref.current) {
             this.ref.current.scrollTo(0, this.ref.current.scrollHeight)
         }
     }
 
-    getActualMessage = () => {
-        const { uid, messages } = this.props
-        return messages.filter(message => message.to == uid || message.from == uid)
+    getMessages = () => {
+        const { uid } = this.props
+        this.props.getMessagesById(uid)
+    }
+
+    componentDidUpdate (prevProps) {
+        const prevId = prevProps.uid
+        const id = this.props.uid
+        if (prevId !== id) this.getMessages()
+    }
+
+    componentDidMount () {
+        this.getMessages()
     }
 
     render () {
         const { value } = this.state
-        const { uid } = this.props
+        const { uid, messages, messagesPending } = this.props
 
-        return (
+        return messagesPending 
+        ? <>
+            <div className="field__box">
+                <p className="start-conversation">
+                    Loading...
+                </p>
+            </div>
+        </> 
+        : (
             <>
                 <div className="field field--column">
                     <div
                         ref={this.ref}
                         className="field__box"
                     >
-                        { this.getActualMessage().length 
-                          ? this.getActualMessage().map((message, index) => {
+                        { messages.length 
+                          ? messages.map((message, index) => {
                             return <Message key={index} message={message} />
                         }) 
                         : <p className="start-conversation">
@@ -121,11 +126,13 @@ export class MessageFieldView extends Component {
 const mapStateToProps = (state) => {
     return {
         messages: state.messagesReducer.messages,
+        messagesPending: state.messagesReducer.messagesPending
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        addMessage: (message) => dispatch(addMessage(message))
+        addMessage: (message) => dispatch(addMessage(message)),
+        getMessagesById: (uid) => dispatch(getMessagesById(uid))
     }
 }
 

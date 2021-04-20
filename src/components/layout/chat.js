@@ -4,6 +4,8 @@ import { AddChatModal } from '@components/modals/add-chat'
 import { push } from 'connected-react-router'
 import { removeChat } from '@store/chats'
 import { removeMessages } from '@store/messages'
+import { Link } from 'react-router-dom';
+import { getChats } from '@store/chats'
 
 // material-ui
 import {
@@ -50,12 +52,16 @@ export class ChatLayoutView extends Component {
         console.log('messages', this.props.messages)
     }
 
+    componentDidMount () {
+        this.props.getChats()
+    }
+
     render () {
         const { colors, isOpen } = this.state
         const Component = this.props.component
-        const { chats } = this.props
+        const { chats, chatsPending } = this.props
         
-        return (
+        return chatsPending ? <div>Loading...</div> : (
             <>
                 <AppBar className="menu">
                     <Toolbar>
@@ -65,19 +71,19 @@ export class ChatLayoutView extends Component {
                             justify="space-between"
                             alignItems="center"
                         >
-                            <Typography
-                                variant="h6"
-                                className="title cursor-pointer"
-                                onClick={() => this.handleNavigate('/')}
-                            >
-                                Chat
-                            </Typography>
-                            <Typography
-                                onClick={() => this.handleNavigate('/login')}
-                                className="title cursor-pointer"
+                            <Link to="/">
+                                <Typography
+                                    variant="h6"
+                                    className="title"
+                                >
+                                    Chat
+                                </Typography>
+                            </Link>
+                            <Link to="/login"
+                                className="title"
                             >
                                 Login
-                            </Typography>
+                            </Link>
                         </Grid>
                     </Toolbar>
                 </AppBar>
@@ -91,19 +97,17 @@ export class ChatLayoutView extends Component {
                 >
                     <List className="sidebar">
                         {chats.map(chat => 
+                            <Link key={chat.uid} to={`/chats/${chat.uid}`}>
                             <ListItem
-                                key={chat.uid}
                                 alignItems="flex-start"
-                                className="cursor-pointer"
                             >
-                                <ListItemAvatar onClick={() => this.handleNavigate(`/chat/${chat.uid}`)}>
+                                <ListItemAvatar>
                                     <Avatar className={colors[this.getRandomColor()]}>
                                         {chat.name[0]}
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={chat.name}
-                                    onClick={() => this.handleNavigate(`/chat/${chat.uid}`)}
                                     secondary={
                                     <React.Fragment>
                                         <Typography
@@ -118,13 +122,8 @@ export class ChatLayoutView extends Component {
                                     </React.Fragment>
                                 }
                                 />
-                                <button
-                                    onClick={() => this.removeChat(chat.uid)}
-                                    className="delete-chat"
-                                >
-                                    <i className="fas fa-times"></i>
-                                </button>
                             </ListItem>
+                        </Link>
                         )}
                         <Button
                             fullWidth
@@ -146,6 +145,7 @@ export class ChatLayoutView extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        chatsPending: state.chatsReducer.chatsPending,
         chats: state.chatsReducer.chats,
         messages: state.messagesReducer.messages,
     }
@@ -156,6 +156,7 @@ const mapDispatchToProps = dispatch => {
         push: (link) => dispatch(push(link)),
         removeChat: (uid) => dispatch(removeChat(uid)),
         removeMessages: (uid) => dispatch(removeMessages(uid)),
+        getChats: () => dispatch(getChats())
     }
 }
 

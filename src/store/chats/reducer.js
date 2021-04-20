@@ -1,21 +1,10 @@
-import { ADD_CHAT, REMOVE_CHAT } from './types'
+import { ADD_CHAT, REMOVE_CHAT, GET_CHATS_PENDING, GET_CHATS_SUCCESS, GET_CHATS_ERROR } from './types'
+
 
 const initialState = {
-    chats: [
-        {
-            uid: 1,
-            name: 'Ali Connors'
-        },
-        {
-            uid: 2,
-            name: 'Alex'
-        },
-        {
-            uid: 3,
-            name: 'Sandra Adams'
-        }
-    ],
-    contacts: ['Ali Connors', 'Alex', 'Sandra Adams', 'Maria Kotova', 'Tatyana', 'Mr Zotov', 'Boss']
+    chats: [],
+    contacts: ['Ali Connors', 'Alex', 'Sandra Adams', 'Maria Kotova', 'Tatyana', 'Mr Zotov', 'Boss'],
+    chatsPending: true
 }
 
 export const chatsReducer = (state = initialState, action) => {
@@ -35,6 +24,22 @@ export const chatsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 chats: state.chats.filter(el => el.uid != action.payload)
+            }
+        case GET_CHATS_PENDING: 
+            return {
+                ...state,
+                chatsPending: true
+            }
+        case GET_CHATS_SUCCESS:
+            return {
+                ...state,
+                chats: action.payload,
+                chatsPending: false
+            }
+        case GET_CHATS_ERROR:
+            return {
+                ...state,
+                chatsPending: false
             }
         default:
             return state

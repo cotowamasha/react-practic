@@ -1,2 +1,5 @@
 export const ADD_CHAT = "@chats/add"
 export const REMOVE_CHAT = "@chats/remove"
+export const GET_CHATS_PENDING = "@chats/get chats pending"
+export const GET_CHATS_SUCCESS = "@chats/get chats success"
+export const GET_CHATS_ERROR = "@chats/get chats error"

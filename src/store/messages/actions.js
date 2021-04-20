@@ -1,4 +1,5 @@
-import { ADD_MESSAGE, REMOVE_MESSAGES, REMOVE_MESSAGE } from './types'
+import { request } from '../../api/request'
+import { ADD_MESSAGE, REMOVE_MESSAGES, REMOVE_MESSAGE, GET_MESSAGES_ERROR, GET_MESSAGES_PENDING, GET_MESSAGES_SUCCESS } from './types'
 
 export const addMessage = (message) => {
     return {
@@ -18,5 +19,15 @@ export const removeMessage = (message) => {
     return {
         type: REMOVE_MESSAGE,
         payload: message
+    }
+}
+
+export const getMessagesById = (uid) => async (dispatch) => {
+    dispatch({type: GET_MESSAGES_PENDING})
+    try {
+        const { data } = await request.get(`/chats/${uid}`)
+        dispatch({type: GET_MESSAGES_SUCCESS, payload: data})
+    } catch {
+        dispatch({type: GET_MESSAGES_ERROR})
     }
 }

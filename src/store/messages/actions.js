@@ -35,8 +35,17 @@ export const getMessagesById = (uid) => async (dispatch) => {
 export const sendMessage = (uid, message) => async (dispatch) => {
     dispatch({type: GET_MESSAGES_PENDING})
     try {
-        // как правильно отправить????
         const { data } = await request.post('send-message', { id: uid, message: message })
+        dispatch({type: GET_MESSAGES_SUCCESS, payload: data})
+    } catch {
+        dispatch({type: GET_MESSAGES_ERROR})
+    }
+}
+
+export const deleteMessage = (uid, message) => async (dispatch) => {
+    dispatch({type: GET_MESSAGES_PENDING})
+    try {
+        const { data } = await request.post('delete-message', { id: uid, message: message })
         dispatch({type: GET_MESSAGES_SUCCESS, payload: data})
     } catch {
         dispatch({type: GET_MESSAGES_ERROR})

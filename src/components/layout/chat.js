@@ -118,7 +118,7 @@ export class ChatLayoutView extends Component {
                                         >
                                             {chat.name}
                                         </Typography>
-                                        {' ' + this.lastMessage(chat.uid) + ' ' }
+                                        {/* {' ' + this.lastMessage(chat.uid) + ' ' } */}
                                     </React.Fragment>
                                 }
                                 />

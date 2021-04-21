@@ -1,7 +1,11 @@
 const cors = require('cors')
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const server = express()
+
+server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({ extended: true }))
 
 server.use(cors())
 
@@ -62,6 +66,12 @@ const getChats = (request, response) => {
     response.status(200).send(chats)
 }
 
+const addChat = (request, response) => {
+    const { name } = request.body
+    chats.push({name: name, uid: chats[chats.length - 1].uid + 1})
+    response.status(200).send(chats)
+}
+
 const getMessageById = (request, response) => {
     const { id } = request.params
     let messagesById = messages.filter(el => el.from == id || el.to == id)
@@ -69,12 +79,26 @@ const getMessageById = (request, response) => {
 }
 
 const sendMessage = (request, response) => {
-    const obj = request.params
-    console.log(obj)
+    const { message, id } = request.body
+    messages.push(message)
+    let messagesById = messages.filter(el => el.from == id || el.to == id)
+    response.status(200).send(messagesById || [])
+}
+
+const deleteMessage = (request, response) => {
+    const { message , id} = request.body
+    let find = messages.find(mes => mes.from == message.from && mes.to == message.to && mes.value == message.value )
+    messages.splice(messages.indexOf(find), 1)
+    let messagesById = messages.filter(el => el.from == id || el.to == id)
+    response.status(200).send(messagesById || [])
 }
 
 server.get('/', getChats)
+server.post('/add-chat', addChat)
 server.get('/chats/:id', getMessageById)
-server.get('/send-message', sendMessage)
+
+server.post('/send-message', sendMessage)
+server.post('/delete-message', deleteMessage)
+
 
 server.listen('8000', () => console.log('server'))

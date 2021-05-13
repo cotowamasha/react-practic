@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -37,6 +38,18 @@ module.exports = {
             }
         }),
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'service-worker.js'),
+                    to: path.resolve(__dirname, 'dist/service-worker.js')
+                },
+                {
+                    from: path.resolve(__dirname, 'manifest'),
+                    to: path.resolve(__dirname, 'dist/manifest')
+                } 
+            ]
+        }),
         new MiniCSSExtractPlugin({
             filename: `./css/${getFileNameByEnv('css')}`,
             chunkFilename: getFileNameByEnv('css', '[id]')
